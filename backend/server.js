@@ -7,8 +7,14 @@ require('dotenv').config();
 const app = express();
 app.use(bodyParser.json());
 app.use(express.json());
+
+// CORS configuration: allow localhost for dev, and production frontend URL from env
+const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
 app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:3001"], // frontend URLs
+  origin: allowedOrigins,
   credentials: true,
 }));
 
